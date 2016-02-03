@@ -4,7 +4,7 @@ import sbt._
 
 
 object Versions {
-  val Squants = "0.6.1-SNAPSHOT"
+  val Squants = "0.6.1-CIBO"
   val Scala = "2.11.7"
   val ScalaCross = Seq("2.11.7", "2.10.6")
 
@@ -24,6 +24,7 @@ object Resolvers {
   val sonatypeNexusSnapshots = "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   val sonatypeNexusReleases = "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
   val sonatypeNexusStaging = "Sonatype Nexus Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+	val CiboRepo = "Cibo libraries" at "http://prod-devops2.ops.cibotechnologies.com:8040/artifactory/libs-release-local"
 }
 
 object Project {
@@ -42,7 +43,8 @@ object Project {
         Resolvers.typeSafeRepo,
         Resolvers.sonatypeNexusSnapshots,
         Resolvers.sonatypeNexusReleases,
-        Resolvers.sonatypeNexusStaging
+        Resolvers.sonatypeNexusStaging,
+        Resolvers.CiboRepo
     )
   )
 }
@@ -58,31 +60,33 @@ object Compiler {
 }
 object Publish {
   val defaultSettings = Seq(
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
+		publishTo := { Some("Cibo libraries" at "http://prod-devops2.ops.cibotechnologies.com:8040/artifactory/libs-release-local") }
 
-    publishMavenStyle := true,
+//	publishTo := {
+//      val nexus = "https://oss.sonatype.org/"
+//      if (isSnapshot.value)
+//        Some("snapshots" at nexus + "content/repositories/snapshots")
+//      else
+//        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+//    },
 
-    publishArtifact in Test := false,
-
-    pomIncludeRepository := { _ => false },
-
-    pomExtra := <scm>
-      <url>git@github.com:garyKeorkunian/squants.git</url>
-      <connection>scm:git:git@github.com:garyKeorkunian/squants.git</connection>
-    </scm>
-      <developers>
-        <developer>
-          <id>garyKeorkunian</id>
-          <name>Gary Keorkunian</name>
-          <url>http://www.linkedin.com/in/garykeorkunian</url>
-        </developer>
-      </developers>
+//    publishMavenStyle := true,
+//
+//    publishArtifact in Test := false,
+//
+//    pomIncludeRepository := { _ => false },
+//
+//    pomExtra := <scm>
+//      <url>git@github.com:garyKeorkunian/squants.git</url>
+//      <connection>scm:git:git@github.com:garyKeorkunian/squants.git</connection>
+//    </scm>
+//      <developers>
+//        <developer>
+//          <id>garyKeorkunian</id>
+//          <name>Gary Keorkunian</name>
+//          <url>http://www.linkedin.com/in/garykeorkunian</url>
+//        </developer>
+//      </developers>
   )
 }
 
